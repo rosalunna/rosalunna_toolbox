@@ -27,5 +27,5 @@ Use with caution, and ensure you understand the impact of each option before pro
 ---
 ## Support
 **If you want to help me, every support is appreciated**
-1. patreon.com/rosalunna
-2. ko-fi.com/rosalunna
+1. https://www.patreon.com/rosalunna
+2. https://www.ko-fi.com/rosalunna
