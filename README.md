@@ -19,3 +19,8 @@ This project is licensed under the **GNU General Public License v3.0**. See the 
 ## Disclaimer
 This script modifies system settings and removes specific Windows applications, including Windows Imbedded Antivirus and Windows Update. 
 Use with caution, and ensure you understand the impact of each option before proceeding.
+---
+## Credits
+Raphire's Win11 Debloat Script (https://github.com/Raphire/Win11Debloat) 
+O&O SHUTUP APP (https://www.oo-software.com/en/shutup10)
+ionuttbara's Windows Defender Remover tool (https://github.com/ionuttbara/windows-defender-remover)
