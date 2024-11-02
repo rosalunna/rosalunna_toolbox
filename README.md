@@ -17,5 +17,5 @@ Ideal for setting up a fresh Windows installation or removing unnecessary apps t
 This project is licensed under the **GNU General Public License v3.0**. See the LICENSE file for details.
 ---
 ## Disclaimer
-This script modifies system settings and removes specific Windows applications, including Windows Imbedded Antivirus. 
+This script modifies system settings and removes specific Windows applications, including Windows Imbedded Antivirus and Windows Update. 
 Use with caution, and ensure you understand the impact of each option before proceeding.
