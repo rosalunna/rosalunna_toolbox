@@ -1,4 +1,4 @@
-# Windows_Toolbox-Debloat
+# rosalunna toolbox&debloat
 A powerful tool to install essential applications, web browsers, utilities, and debloat your Windows system, all from a convenient menu. 
 Ideal for setting up a fresh Windows installation or removing unnecessary apps to improve system performance.
 
