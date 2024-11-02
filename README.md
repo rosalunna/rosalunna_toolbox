@@ -29,6 +29,8 @@ Use with caution, and ensure you understand the impact of each option before pro
 1. Raphire's Win11 Debloat Script (https://github.com/Raphire/Win11Debloat)
 2. O&O SHUTUP APP (https://www.oo-software.com/en/shutup10)
 3. ionuttbara's Windows Defender Remover tool (https://github.com/ionuttbara/windows-defender-remover)
+4. Aetherinox's Windows Update Killer (https://github.com/Aetherinox/windows-update-killer)
+5. tsgrgo's Windows Update Disabler (https://github.com/tsgrgo/windows-update-disabler)
 ---
 ## Support
 **If you want to help me, every support is appreciated**
