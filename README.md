@@ -21,6 +21,6 @@ This script modifies system settings and removes specific Windows applications, 
 Use with caution, and ensure you understand the impact of each option before proceeding.
 ---
 ## Credits
-Raphire's Win11 Debloat Script (https://github.com/Raphire/Win11Debloat) 
-O&O SHUTUP APP (https://www.oo-software.com/en/shutup10)
-ionuttbara's Windows Defender Remover tool (https://github.com/ionuttbara/windows-defender-remover)
+1. Raphire's Win11 Debloat Script (https://github.com/Raphire/Win11Debloat)
+2. O&O SHUTUP APP (https://www.oo-software.com/en/shutup10)
+3. ionuttbara's Windows Defender Remover tool (https://github.com/ionuttbara/windows-defender-remover)
