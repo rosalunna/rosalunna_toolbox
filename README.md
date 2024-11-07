@@ -26,12 +26,8 @@ Ideal for setting up a fresh Windows installation or removing unnecessary apps t
 - Re-enable Windows Updates
 - Automated Debloat Removing both defender and updates
 
-## Installation Methods
-### Easy method:
+## Installation Method
 Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
-
-### Alternative Method:
-Download the 7z file and execute "rosalunna.py" from your favorite Code Environment.
 
 ### Link to the latest release
 https://github.com/rosalunna/rosalunna_toolbox/releases/tag/official_releases/latest/
