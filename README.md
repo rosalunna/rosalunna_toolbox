@@ -1,4 +1,4 @@
-# rosalunna toolbox&debloat
+*# rosalunna toolbox&debloat
 A powerful tool to install essential applications, web browsers, utilities, and debloat your Windows system, all from a convenient menu. 
 Ideal for setting up a fresh Windows installation or removing unnecessary apps to improve system performance.
 
@@ -31,6 +31,7 @@ Use with caution, and ensure you understand the impact of each option before pro
 3. ionuttbara's Windows Defender Remover tool (https://github.com/ionuttbara/windows-defender-remover)
 4. Aetherinox's Windows Update Killer (https://github.com/Aetherinox/windows-update-killer)
 5. tsgrgo's Windows Update Disabler (https://github.com/tsgrgo/windows-update-disabler)
+6. Shadow Whisperer's MS-EDGE Removal batch (https://github.com/ShadowWhisperer/Remove-MS-Edge)
 ---
 ## Support
 **If you want to help me, every support is appreciated**
