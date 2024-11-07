@@ -44,7 +44,9 @@ This script modifies system settings and removes specific components including:
 - **Windows Update**
 - **Windows Default Applications**
 - **Windows processes and regedit**
+- **Microsoft Edge**
 - **Bloatware**
+
 
 ### ***Use with caution, and ensure you understand the impact of each option before proceeding.***
 
