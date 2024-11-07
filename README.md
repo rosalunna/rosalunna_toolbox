@@ -28,7 +28,7 @@ Ideal for setting up a fresh Windows installation or removing unnecessary apps t
 
 ## Installation Methods
 ### Easy method:
-Download rosalunna_toolbox_v0.2.0.exe and execute It ***AS ADMINISTRATOR!***
+Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
 
 ### Alternative Method:
 Download the 7z file and execute "rosalunna.py" from your favorite Code Environment.
