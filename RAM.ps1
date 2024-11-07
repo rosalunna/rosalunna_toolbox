@@ -3,4 +3,4 @@ if ($MyInvocation.WindowHandle -ne [System.IntPtr]::Zero) {
     Start-Process powershell -ArgumentList "-WindowStyle Hidden -File `"$PSCommandPath`"" -Verb RunAs
     exit
 }
-Rammap -E0 -Et -Ew
+Rammap -E0 -Et
