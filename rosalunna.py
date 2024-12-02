@@ -1,149 +1,154 @@
-import os, subprocess, shutil, winreg, ctypes, sys, time
-from os import system
-from stat import *
-from side_by_side import print_side_by_side
+import os, subprocess, shutil, winreg, sys, requests, stat, time, ctypes, zipfile
+import time
 from colorama import Fore, Style
-import wget
-import requests
-import tkinter as tk
+import rich
 from Utils.installations import *
-from Utils.regedit import *
-from Utils.servicesmsc import *
+from Utils.regedit_services import *
+from side_by_side import print_side_by_side
+from urllib.request import urlretrieve
 
-# Needed 
-is_admin() #admin check
-subprocess.run(["python.exe","-m","pip","install","--upgrade", "pip"], 
-               shell=True, capture_output=True,text=True
-               )
+# Setups
+git_setup()
+scoop_setup()
+choco_setup()
 
-# Install Git on system
-try:
-    wingit = winget_install("Git.Git")
-except subprocess.CalledProcessError as e:
-    print(e.stderr, e.stdout)
+# Set Column Width for some menus
+column_width = 80
 
-# Install chocolatey if not
-try:
-    # Check if Chocolatey is installed
-    choco = subprocess.run(["powershell", "-Command", "choco"], shell=True, capture_output=True, text=True)
-    if choco.returncode != 0:
-        print("Chocolatey is not installed. Installing Chocolatey...")
-        winget_silent("Chocolatey.Chocolatey")
-    else:
-        print("Chocolatey is already installed.")
-except subprocess.CalledProcessError as e:
-    print("An error occurred while checking Chocolatey:", e.stderr, e.stdout)      
-        
-        
-winget_silent("Chocolatey.Chocolatey")
-scoop_setup() # Install Scoop Package Manager
-
-# Display the main menu
+# Main menu & loop
 def main_menu():
+
+    O1 = "[#78fab2][1] Extremely Recommended[/#78fab2]"
+    O2 = "[#5F6E81][2][/#5F6E81] [#0073ff]Brow[/#0073ff][#bd6902]sers[/#bd6902]"
+    O3 = "[#7d0137][3] Applications[/#7d0137]"
+    O4 = "[#00f4ff][4] Development[/#00f4ff]"
+    O5 = "[#fc0345][5] Debloat[/#fc0345]"
+    O6 = "[#fc0345][6] Nilesh's ISO Debloat Script[/#fc0345]"
+    
+         
     clear_screen()
-    print(Fore.MAGENTA)
-    print("\nScript is running with Admin Privileges\n", "\n//------------------ ROSALUNNA DEBLOAT/INSTALL SCRIPT ------------------//\n")
-    print(f"[1] EXTREMELY RECOMMENDED       [2] Browsers")
-    print(f"[3] Applications                [4] Development")
-    print(f"[5] Debloat")
-    print(f"[0] Exit")
-    choice = input(Fore.WHITE + "\nType option: ")
+    rich.print("[#7d0137]SCRIPT MUST BE RAN AS[/#7d0137]","[#bf6000]ADMINISTRATOR,[/#bf6000]","[#7d0137]RESTART IF NEEDED[/#7d0137]")
+    rich.print("[#7d0137]VERSION:[/#7d0137] [#eb05b5]1.0.0[/#eb05b5]\n")
+    rich.print("[#7d0137]|-------------------------------------ROSALUNNA TOOLBOX-------------------------------------|[/#7d0137]\n")
+    rich.print(O1.ljust(column_width) + O2)
+    rich.print(O3.ljust(column_width) + O4)
+    rich.print(O5.ljust(column_width) + O6)
+    print(Fore.RED + "\n[0] Exit the application" + Fore.RESET)
+    choice = input("\nChoose an option: ")
 
     while True:
-        if choice == "1":
+        if choice == "0":
             clear_screen()
-            tools_menu()
+            sys.exit()
+
+        elif choice == "1":
+            clear_screen()
+            rec_menu()
+
         elif choice == "2":
             clear_screen()
             browsers_menu()
+
         elif choice == "3":
             clear_screen()
             apps_menu()
+
         elif choice == "4":
-            dev_menu()    
+            clear_screen()
+            dev_menu()
+
         elif choice == "5":
             clear_screen()
             debloat_menu()
-        elif choice == "0":
+            
+        elif choice == "6":
             clear_screen()
-            print("Exiting the script")
-            sys.exit()                
+            iso_menu()    
 
-#Tools Menu [1]
-def tools_menu():
+        else:
+            print("\nNot known option.")
+            time.sleep(1.5)
+            main_menu()
+                                
+# [1] Recommended Installations Menu
+def rec_menu():
     clear_screen()
-    print(Fore.LIGHTRED_EX)
-    print("Extremely Recommended Installations on a Stripped Machine/custom ISO\n")
-    print("[1] DirectX, Visual C++, .NET")
-    print("[2] Java 8")
-    print("[3] Windows Terminal")
-    print("[4] Calculator, Paint3D, Camera, Photos, MultiMedia Player, Notepad, Voice Recorder")
-    print(Fore.WHITE + "\n[0] Back to Main Menu")
+    rich.print("[#ff0066]Extremely Recommended[/#ff0066] Installations on a Stripped Machine/custom ISO\n")
+    print(Fore.GREEN+"[1] DirectX, Visual C++, .net, Java 8")
+    print("[2] Terminal, Calculator, Paint3D, Camera, Multimedia player, photos, Notepad, Sound Recorder"+Fore.RESET)
 
-    choice = input(Fore.WHITE + "\nChoose a tool: ")
+    print("\n[0] Back to Main Menu")
+    choice = input("\nChoose a tool: ")
 
     if choice == "0":
         clear_screen()
         main_menu()
 
     elif choice == "1":
+        clear_screen()
+        time.sleep(1)
         print("Installations are starting")
+        time.sleep(1)
+        # DirectX
         winget_silent("Microsoft.DirectX")
-        winget_silent("Microsoft.VCRedist.2013.x64")
-        winget_silent("Microsoft.VCRedist.2013.x86")
-        winget_silent("Microsoft.VCRedist.2012.x64")
-        winget_silent("Microsoft.VCRedist.2012.x86")
-        winget_silent("Microsoft.VCLibs.Desktop.14")
+        # Visual C++
         winget_silent("Microsoft.VCRedist.2005.x64")
         winget_silent("Microsoft.VCRedist.2005.x86")
         winget_silent("Microsoft.VCRedist.2008.x64")
         winget_silent("Microsoft.VCRedist.2008.x86")
         winget_silent("Microsoft.VCRedist.2010.x64")
         winget_silent("Microsoft.VCRedist.2010.x86")
+        winget_silent("Microsoft.VCRedist.2012.x64")
+        winget_silent("Microsoft.VCRedist.2012.x86")
+        winget_silent("Microsoft.VCRedist.2013.x64")
+        winget_silent("Microsoft.VCRedist.2013.x86")
         winget_silent("Microsoft.VCRedist.2015+.x64")
         winget_silent("Microsoft.VCRedist.2015+.x86")
+        # Asp Net Core
         winget_silent("Microsoft.DotNet.AspNetCore.3_1")
         winget_silent("Microsoft.DotNet.AspNetCore.6")
         winget_silent("Microsoft.DotNet.AspNetCore.7")
         winget_silent("Microsoft.DotNet.AspNetCore.8")
+        winget_silent("Microsoft.DotNet.AspNetCore.9")
         winget_silent("Microsoft.DotNet.AspNetCore.Preview")
+        # .net windows desktop runtime
         winget_silent("Microsoft.DotNet.DesktopRuntime.3_1")
         winget_silent("Microsoft.DotNet.DesktopRuntime.6")
         winget_silent("Microsoft.DotNet.DesktopRuntime.7")
         winget_silent("Microsoft.DotNet.DesktopRuntime.8")
-        winget_silent("Microsoft.DotNet.DesktopRuntime.Preview")
+        winget_silent("Microsoft.DotNet.DesktopRuntime.9")
+        # .net runtime
         winget_silent("Microsoft.DotNet.Runtime.3_1")
         winget_silent("Microsoft.DotNet.Runtime.6")
         winget_silent("Microsoft.DotNet.Runtime.7")
         winget_silent("Microsoft.DotNet.Runtime.8")
-        winget_silent("Microsoft.DotNet.Runtime.Preview")
-
+        # Java 8
+        winget_silent("Oracle.JavaRuntimeEnvironment")
 
     elif choice == "2":
-        winget_install("Oracle.JavaRuntimeEnvironment")
-    elif choice == "3":
-        winget_install("Microsoft.WindowsTerminal")
-    elif choice == "4":
-        winget_ms("9NBLGGH5FV99")#paint
-        winget_ms("9WZDNCRFHVN5")#calc
-        winget_ms("9WZDNCRFJBBG")#cam
-        winget_ms("9WZDNCRFJBH4")#photos
-        winget_ms("9WZDNCRFJ3PT")#media
-        winget_ms("9MSMLRH6LZF3")#notepad
-        winget_ms("9WZDNCRFHWKN")#voice recorder
-    else:
-        print("Invalid Choice")
-            
-        
-# Browsers menu [2]
+        clear_screen()
+        time.sleep(1)
+        print("Installations are starting")
+        time.sleep(1)
+        winget_ms("9N0DX20HK701") #terminal
+        winget_ms("9WZDNCRFJ3PT") #media
+        winget_ms("9WZDNCRFHVN5") #calc
+        winget_ms("9PCFS5B6T72H") #paint
+        winget_ms("9WZDNCRFJBBG") #cam
+        winget_ms("9WZDNCRFJBH4") #photos
+        winget_ms("9MSMLRH6LZF3") #notepad
+        winget_ms("9WZDNCRFHWKN") #sound        
+
+# [2] Browsers menu
 def browsers_menu():
     clear_screen()
-    print(Fore.LIGHTBLACK_EX)
-    print("Browsers Installation Options\n")
-    print(Fore.BLUE + "[1] Chromium Based")
-    print(Fore.LIGHTYELLOW_EX + "[2] Firefox Forks/Engine")
-    print(Fore.WHITE + "[0] Back to Main Menu")
-    choice = input(Fore.WHITE + "\nChoose a browser to install: ")
+    O1 = "[#0073ff][1] Chromium-Based[/#0073ff]"
+    O2 = "[#bd6902][2] Firefox Based[/#bd6902]"
+    rich.print(O1.ljust(60) + O2)
+    print("\n[0] Back to main menu")
+
+    choice = input("\nChoose a browser subtype: ")
+
     if choice == "0":
         clear_screen()
         main_menu()
@@ -151,295 +156,379 @@ def browsers_menu():
     elif choice == "1":
         clear_screen()
         chromium_menu()
+
     elif choice == "2":
-        clear_screen
+        clear_screen()
         firefox_menu()
 
-# [3] Applications                
-def apps_menu():
-    width = 50
-    gaming = [
-    Fore.LIGHTMAGENTA_EX + "\n|------------------------ GAMING ------------------------|",
-    " [1] Steam                        [2] Epic Games",
-    " [3] GOG Galaxy                   [4] Itch.io",
-    " [5] Bethesda Launcher            [6] Battle.net",
-    " [7] EA App                       [8] Origin",
-    " [9] Ubisoft Connect              [10] Geforce NOW",
-    " [11] Rockstar Games Launcher     [12] Playnite\n"
- ]
-    peripherals = ["\n|----------------------- PERIPHEALS -----------------------|",
-    " [13] Razer Synapse 3                  [14] Razer Synapse 4",
-    " [15] Steelseries GG                   [16] Logitech GHUB",
-    " [17] Corsair ICUE3                    [18] Corsair ICUE4",
-    " [19] Corsair ICUE5                    [20] HyperX NGENUITY"
- ]
-    emulators = [Fore.BLUE + "\n|----------------------------- EMULATORS -----------------------------|",
-    " [21] Ryujinx (SWITCH)                    [22] Dolphin (GAMECUBE/WII)",
-    " [23] Duckstation (PS1)                   [24] PCSX2 (PS2)",
-    " [25] RPCS3 (PS3)                         [26] PPSSPP (PSP)",
-    " [27] SNES9X (SNES)                       [28] CEMU (WIIU)",
-    " [29] MELONDS (NDS)                       [30] LIME3DS (3DS)",
-    " [31] XEMU (XBOX)                         [32] XENIA (XBOX360)",
-    " [33] FLYCAST (DREAMCAST)",
-    "\n\n|------------------------------- UTILITIES -------------------------------|"
-    "\n- UNINSTALLING AND PERFORMANCE TESTING -",
-    " [53] Display Driver Uninstaller   [54] REVO Uninstaller",
-    " [55] IOBIT Uninstaller            [56] CCleaner",
-    " [57] BleachBit",
-    "\n- (DE)COMPRESSION/FILE-MANAGER -",
-    " [58] 7zip                         [59] NanaZip",
-    " [60] PeaZip                       [61] WinRAR\n",
-    "- DISK MANAGING -",
-    " [62] Macrium Reflect              [63] Minitool Partition Wizard",
-    " [64] Defraggler\n",
-    "- OS INSTALL -",
-    " [65] Ventoy                       [66] Rufus",
-    "- VIRTUALIZATION -",
-    " [67] VMWare Workstation Player    [68] Oracle VirtualBox",
-    " ",
-    "- OTHER -",
-    " [69] Dual Monitor Tools           [70] IOBIT Unlocker",
-    " [71] Notepad++\n"
- ]
-    hardware = ["\n|--------------------------------- HARDWARE ---------------------------------|",
-    "- HARDWARE MONITORING AND INFORMATION -          ",
-    " [34] CPU-Z                                 [35] GPU-Z",
-    " [36] Speccy                                [37] HWMonitor",
-    " [38] HWInfo                                [39] Core Temp",
-    " [40] AIDA64                                [41] Intel Processor ID Utility",
-    "\n- OVERCLOCKING AND TUNING -",
-    " [42] MSI Afterburner                       [43] Intel Extreme Tuning Utility",
-    " [44] NVIDIA Inspector                      [45] AMD Ryzen Master",
-    " [46] OCCT (Overclocking Stress Utility)    [47] QuickCPU",
-    " [48] Process Lasso                                        ",
-    "\n- BENCHMARKING AND PERFORMANCE TESTING -",
-    " [49] 3DMark                                [50] Cinebench",
-    " [51] UNIGINE Heaven                        [52] UNIGINE Superposition",
- ]
-
-    left_gaming = [item.ljust(width) for item in gaming]
-    right_peripheals = [item.rjust(width) for item in peripherals]
-    left_emulators = [item.ljust(width) for item in emulators]
-    right_hardware = [item.rjust(width) for item in hardware]
-    #normal utilities
-    print_side_by_side("\n".join(left_gaming),"\n".join(right_peripheals))
-    print_side_by_side("\n".join(left_emulators),"\n".join(right_hardware))
-    print(Fore.WHITE + " [0] Back to main menu\n")
-    choice = input(Fore.WHITE + " Choose an application: ")
-    if choice == "0":
-        clear_screen()
-        main_menu()
-    elif choice == "1":
-        choco_install("steam")
-    elif choice == "2":
-        choco_install("epicgameslauncher")
-    elif choice == "3":
-        choco_install("goggalaxy")
-    elif choice == "4":
-        choco_install("itch")
-    elif choice == "5":
-        winget_install("Bethesda.Launcher")
-    elif choice == "6":
-        scoop_install("games/battlenet")
-    elif choice == "7":
-        choco_install("ea-app")
-    elif choice == "8":
-        choco_install("origin")
-    elif choice == "9":
-        choco_install("ubisoft-connect")
-    elif choice == "10":
-        choco_install("nvidia-geforce-now")
-    elif choice == "11":
-        choco_install("rockstar-launcher")
-    elif choice == "12":
-        choco_install("playnite")
-    elif choice == "13":
-        winget_install("RazerInc.RazerInstaller")
-    elif choice == "14":
-        url = "https://rzr.to/synapse-4-pc-download"
-        filename = "Razer Synapse 4.exe"
-        download_file(url,filename) 
-    elif choice == "15":
-        choco_install("steelseries-engine") 
-    elif choice == "16":
-        winget_install("Logitech.GHUB")
-    elif choice == "17":
-        winget_install("Corsair.iCUE.3")
-    elif choice == "18":
-        winget_install("Corsair.iCUE.4")
-    elif choice == "19":
-        winget_install("Corsair.iCUE.5")
-    elif choice == "20":
-        winget_install("9P1TBXR6QDCX")
-    elif choice == "21":
-        choco_install("ryujinx")
-    elif choice == "22":
-        choco_install("dolphin")
-    elif choice == "23":
-        scoop_install("games/duckstation")    
-    elif choice == "24":
-        winget_install("PCSX2Team.PCSX2")
-    elif choice == "25":
-        scoop_install("games/rpcs3")
-    elif choice == "26":
-        scoop_install("games/ppsspp")    
-    elif choice == "27":
-        choco_install("snes9x")
-    elif choice == "28":
-        choco_install("cemu")
-    elif choice == "29":
-        scoop_install("games/melonds")
-    elif choice == "30":
-        scoop_install("games/lime3ds")
-    elif choice == "31":
-        scoop_install("games/xemu")
-    elif choice == "32":
-        scoop_install("games/xenia")
-    elif choice == "33":
-        scoop_install("games/flycast")
-    elif choice == "34":
-        scoop_install("extras/cpuz")
-    elif choice == "35":
-        scoop_install("extras/gpuz")
-    elif choice == "36":
-        scoop_install("extras/speccy")
-    elif choice == "37":
-        scoop_bucket_add("extras")
-        scoop_install("extras/hwmonitor")
-    elif choice == "38":
-        scoop_install("extras/hwinfo")
-    elif choice == "39":
-        scoop_install("extras/coretemp")
-    elif choice == "40":
-        scoop_install("extras/aida64extreme")
-    elif choice == "41":
-        choco_install("intel-processor-identification-utility")
-    elif choice == "42":
-        winget_install("Guru3D.Afterburner")
-    elif choice == "43":
-        choco_install("intel-xtu")
-    elif choice == "44":
-        scoop_install("extras/nvidia-profile-inspector")
-    elif choice == "45":
-        choco_install("amd-ryzen-master")
-    elif choice == "46":
-        winget_install("OCBase.OCCT.Personal")
-    elif choice == "47":
-        scoop_bucket_add("extras")
-        scoop_install("extras/quickcpu")
-    elif choice == "48":
-        choco_install("plasso")
-    elif choice == "49":
-        choco_install("3dmark")
-    elif choice == "50":
-        winget_install("Maxon.CinebenchR23")
-    elif choice == "51":
-        choco_install("heaven-benchmark")
-    elif choice == "52":
-        choco_install("superposition-benchmark")
-    elif choice == "53":
-        choco_install("ddu")
-    elif choice == "54":
-        scoop_install("extras/revouninstaller")
-    elif choice == "55":
-        winget_install("IObit.Uninstaller")
-    elif choice == "56":
-        winget_install("Piriform.CCleaner")
-    elif choice == "57":
-        winget_install("BleachBit.BleachBit")
-    elif choice == "58":
-        choco_install("7zip")
-    elif choice == "59":
-        choco_install("nanazip")
-    elif choice == "60":
-        choco_install("peazip")
-    elif choice == "61":
-        winget_install("RARLab.WinRAR")
-    elif choice == "62":
-        choco_install("reflect-free")
-    elif choice == "63":
-        choco_install("partitionwizard")
-    elif choice == "64":
-        scoop_install("extras/defraggler")
-    elif choice == "65":
-        winget_install("ventoy.Ventoy")
-    elif choice == "66":
-        winget_install("Rufus.Rufus")
-    elif choice == "67":
-        scoop_install("nonportable/vmware-workstation-player-np")
-    elif choice == "68":
-        choco_install("virtualbox")
-    elif choice == "69":
-        choco_install("dual-monitor-tools")
-    elif choice == "70":
-        choco_install("io-unlocker")
-    elif choice == "71":
-        choco_install("notepadplusplus")    
-    
-    else:
-        print("Unknown option.")
-        clear_screen()
-        main_menu()         
-
-#Debloat Menu [4]
-def debloat_menu():
+# Browsers subtype
+def chromium_menu():
     clear_screen()
-    print(Fore.RED)
-    print("DEBLOAT MENU for " + Fore.YELLOW + "ADVANCED " + Fore.RED + "users\nProceed with " + Fore.YELLOW + "CAUTION!\n" + Fore.RED)
-    print_side_by_side("[1] Automated Debloat removing Defender", "[2] Automated Debloat keeping Defender")
-    print_side_by_side("[3] Pause Windows Updates until 2051","[4] Re-enable Windows Updates")
-    print("[5] Automated debloat, disabling defender and updates")
-    print("\nINFO:The debloat options" + Fore.YELLOW + " WILL " + Fore.RED + "remove MS-EDGE, you may reinstall using the Applications Menu if needed.")
-    print(Fore.WHITE + "\n[0] Back to main menu")
+    O1 = "[#a1002e][1] Vivaldi[/#a1002e]"
+    O2 = "[#E9500C][2] Brave[/#E9500C]"
+    O3 = "[#010380][3] Chromium[/#010380]"
+    O4 = "[#b84d00][4] Google Chrome[/#b84d00]"
+    O5 = "[#0090b8][5] Ungoogled Chromium [/#0090b8]"
+    O6 = "[#2d71b8][6] Microsoft Edge[/#2d71b8]"
+    O7 = "[#a3020c][7] Opera[/#a3020c]"
+    O8 = "[#a3020c][8] Opera GX[/#a3020c]"
+    O9 = "[#fa4929][9] Yandex[/#fa4929]"
+    O10 = "[#fa4460][10] Arc[/#fa4460]"
+    rich.print(O1.ljust(column_width) + O2)
+    rich.print(O3.ljust(column_width) + O4)
+    rich.print(O5.ljust(column_width) + O6)
+    rich.print(O7.ljust(column_width) + O8)
+    rich.print(O9.ljust(column_width) + O10)
     
 
-    choice = input(Fore.WHITE + "\nChoose an option: ")
+    print("\n[0] Browsers Subtype Menu\n")
+    choice = input("Choose a chromium based option: ")
+
+    if choice == "0":
+        clear_screen()
+        browsers_menu()
+    elif choice == "1":
+        winget_install("Vivaldi.Vivaldi")
+    elif choice == "2":
+        winget_install("Brave.Brave")
+    elif choice == "3":
+        winget_install("Hibbiki.Chromium")
+    elif choice == "4":
+        winget_install("Google.Chrome")
+    elif choice == "5":
+        winget_install("eloston.ungoogled-chromium")
+    elif choice == "6":
+        winget_install("Microsoft.Edge")
+    elif choice == "7":
+        winget_install("Opera.Opera")
+    elif choice == "8":
+        winget_install("Opera.OperaGX")
+    elif choice == "9":
+        winget_install("Yandex.Browser")
+    elif choice == "10":
+        winget_install("TheBrowserCompany.Arc")
+
+def firefox_menu():
+    O1 = "[#FF3D40][1] Mozilla Firefox[/#FF3D40]"
+    O2 = "[#5A08E8][2] Floorp[/#5A08E8]"
+    O3 = "[#00ACFF][3] Librewolf[/#00ACFF]"
+    O4 = "[#00ACFF][4] Waterfox[/#00ACFF]"
+    O5 = "[#FEF9FE][5] Zen[/#FEF9FE]"
+    O6 = "[#E6A216][6] Mullvad[/#E6A216]"
+    O7 = "[#9C3EEB][7] TOR[/#9C3EEB]"
+    O8 = "[#1B3563][8] Pale Moon[/#1B3563]"
+    
+    rich.print(O1.ljust(column_width) + O2)
+    rich.print(O3.ljust(column_width) + O4)
+    rich.print(O5.ljust(column_width) + O6)
+    rich.print(O7.ljust(column_width) + O8)
+    
+    print("\n[0] Browsers Subtype Menu")
+    choice = input("\nChoose a FireFox based option: ")
+
+    if choice == "0":
+        clear_screen()
+        browsers_menu()
+    elif choice == "1":
+        winget_install("Mozilla.Firefox")
+    elif choice == "2":
+        winget_install("Ablaze.Floorp")
+    elif choice == "3":
+        winget_install("LibreWolf.LibreWolf")
+    elif choice == "4":
+        winget_install("Waterfox.Waterfox")
+    elif choice == "5":
+        winget_install("Zen-Team.Zen-Browser")
+    elif choice == "6":
+        winget_install("MullvadVPN.MullvadBrowser")
+    elif choice == "7":
+        winget_install("TorProject.TorBrowser")
+    elif choice == "8":
+        winget_install("MoonchildProductions.PaleMoon")                    
+
+# [3]Apps Menu
+def apps_menu():
+    GAMING = [Fore.LIGHTMAGENTA_EX + "|-------------------------GAMING-------------------------|",
+              " [1] Steam                          [2] Epic Games",
+              " [3] GOG Galaxy                     [4] Battle.net",
+              " [5] Rockstar Games Launcher        [6] EA App",
+              " [7] Origin                         [8] Ubisoft Connect",
+              " [9] Itch.io                        [10] Bethesda Launcher",
+              " [11] Playnite                      [12] Geforce NOW"+Fore.LIGHTRED_EX      
+    ]
+    COMMON = ["     |--------COMMON APPLICATIONS--------|",
+              " [13] Discord          [14] Spotify", 
+              " [15] WhatsApp         [16] Telegram\n",
+              "|----------ARCHIVE MANAGERS----------|",
+              " [17] 7Zip             [18] NanaZip",
+              " [19] WinRar           [20] WinZip"    
+    ]
+    HARDWAREMON = ["\n|------------------------------------------------------------HARDWARE------------------------------------------------------------|",
+               " /HARDWARE MONITORING AND INFO/",
+               " [21] CPU-Z               [22] GPU-Z",
+               " [23] Speccy              [24] HWMonitor",
+               " [25] HWInfo              [26] AIDA64",
+    ]
+    OVERCLOCKBENCH = ["",
+                " /OVERCLOCKING AND BENCHMARKING",
+                " [27] MSI Afterburner    [28] Intel Extreme Tuning Utility",
+                " [29] AMD Ryzen Master   [30] OCCT",
+                " [31] QuickCPU           [32] NVIDIA Inspector",
+                " [33] Process Lasso      [34] CineBench",
+                " [35] 3DMark"             
+    ]
+    UTILITIES = [Fore.CYAN+"\n|----------------------------UTILITIES----------------------------|",
+                " [36] Ventoy                      [37] Rufus",
+                " [38] VMware Workstation Player   [39] Oracle VirtualBox",
+                " [40] Macrium Reflect             [41] Minitool Partition Wizard",
+                " [42] Display Driver Uninstaller  [43] Revo Uninstaller" + Fore.RESET
+                 
+    ]
+    
+    
+    
+    max_length = max(len(GAMING), len(COMMON))
+    GAMING.extend([""] * (max_length - len(GAMING)))
+    COMMON.extend([""] * (max_length - len(COMMON)))
+    
+    max_length = max(len(HARDWAREMON), len(OVERCLOCKBENCH))
+    HARDWAREMON.extend([""] * (max_length - len(HARDWAREMON)))
+    OVERCLOCKBENCH.extend([""] * (max_length - len(OVERCLOCKBENCH)))
+
+# Print side-by-side
+    for left, right in zip(GAMING, COMMON):
+        print(f"{left.ljust(70)} {right}")
+    for left, right in zip(HARDWAREMON, OVERCLOCKBENCH):
+        print(f"{left.ljust(70)} {right}")
+    print("\n".join(UTILITIES))    
+    rich.print("\n [0] Back to main menu")        
+              
+    applications = {
+        "1": ("Valve.Steam", "winget_install"),
+        "2": ("EpicGames.EpicGamesLauncher", "winget_install"),
+        "3": ("GOG.Galaxy", "winget_install"),
+        "4": ("Blizzard.BattleNet", "winget_install"),
+        "5": ("rockstar-launcher", "choco_install"),
+        "6": ("ElectronicArts.EADesktop", "winget_install"),
+        "7": ("ElectronicArts.Origin", "winget_install"),
+        "8": ("Ubisoft.Connect", "winget_install"),
+        "9": ("ItchIo.Itch", "winget_install"),
+        "10": ("Bethesda.Launcher", "winget_install"),
+        "11": ("Playnite.Playnite", "winget_install"),
+        "12": ("Nvidia.GeForceNow", "winget_install"),
+        "13": ("Discord.Discord", "winget_install"),
+        "14": ("Spotify.Spotify", "winget_install"),
+        "15": ("9NKSQGP7F2NH", "winget_ms"),  # WhatsApp
+        "16": ("telegram", "choco_install"),
+        "17": ("7zip.7zip", "winget_install"),
+        "18": ("M2Team.NanaZip", "winget_install"),
+        "19": ("RARLab.WinRAR", "winget_install"),
+        "20": ("Corel.WinZip", "winget_install"),
+        "21": ("CPUID.CPU-Z", "winget_install"),
+        "22": ("gpu-z", "choco_install"),
+        "23": ("Piriform.Speccy", "winget_install"),
+        "24": ("CPUID.HWMonitor", "winget_install"),
+        "25": ("hwinfo", "choco_install"),
+        "26": ("FinalWire.AIDA64.Extreme", "winget_install"),
+        "27": ("Guru3D.Afterburner", "winget_install"),
+        "28": ("intel-xtu", "choco_install"),
+        "29": ("amd-ryzen-master", "choco_install"),
+        "30": ("OCBase.OCCT.Personal", "winget_install"),
+        "31": ("CoderBag.QuickCPUx64", "winget_install"),
+        "32": ("nvidia-profile-inspector", "choco_install"),
+        "32": ("nvidia-profile-inspector", "choco_install"),
+   
+    }    
+
+    choice = input("\nChoose an application: ")
     if choice == "0":
         clear_screen()
         main_menu()
+    else:
+        # Fetch the command and function name from the dictionary
+        app_info = applications.get(choice)
+        if app_info:
+            app_name, install_function = app_info
+            # Dynamically call the appropriate function
+            globals()[install_function](app_name)
+        else:
+            print("Invalid choice. Please try again.")    
+
+# [4] Development Menu
+def dev_menu():
+    rich.print("Welcome to the [#00f4ff]Development[/#00f4ff] Menu\n")
     
-    elif choice == "1": # Automated -Defender
-        # Regedit and Services Tweaks
-        regedit()
-        remove_services()
+    LANG = [Fore.CYAN + "|--------------------LANGUAGES--------------------|",
+            " [1] Python         [2] Java",
+            " [3] Ruby           [4] Kotlin",
+            " [5] Go             [6] TypeScript",
+            " [7] Rust           [8] PHP",
+            " [9] Lua           [10] Ada" + Fore.RESET
+            ]
+    EDITORIDE = ["    |------------CODE EDITORS/IDEs------------|",
+                 " [11] VS Code           [12] VS Codium",
+                 " [13] IntelliJ IDEA     [14] PyCharm",
+                 " [15] Arduino IDE       [16] Eclipse",
+                 " [17] Jupyter Notebook  [18] Code::Blocks"       
+    ]
+    
+    max_length = max(len(LANG), len(EDITORIDE))
+    LANG.extend([""] * (max_length - len(LANG)))
+    EDITORIDE.extend([""] * (max_length - len(EDITORIDE)))
+    
+    for left, right in zip(LANG, EDITORIDE):
+        print(f"{left.ljust(70)} {right}")
+    print("\n [0] Back to main menu")    
+    
+    development = {
+        "1": ("Python.Python.3.13", "winget_install"),
+        "2": (["Oracle.JavaRuntimeEnvironment", "Oracle.JDK.23"], "winget_install_multiple"),
+        "3": ("RubyInstallerTeam.Ruby.3.2", "winget_install"),
+        "4": ("ojdkbuild.openjdk.14.jdk", "winget_install"),
+        "5": ("GoLang.Go", "winget_install"),
+        "6": ("Nodejs.LTS", "winget_install"),
+        "7": ("Rust.Rust", "winget_install"),
+        "8": ("PHP.PHP", "winget_install"),
+        "9": ("Lua.Lua", "winget_install"),
+        "10": ("AdaCore.GNAT", "winget_install"),
+        "11": ("Microsoft.VisualStudioCode", "winget_install"),
+        "12": ("VSCodium.VSCodium", "winget_install"),
+        "13": ("JetBrains.IntelliJIDEA.Community", "winget_install"),
+        "14": ("JetBrains.PyCharm.Community", "winget_install"),
+        "15": ("ArduinoSA.IDE.stable", "winget_install"),
+        "16": (["EclipseAdoptium.Temurin.23.JDK", "EclipseAdoptium.Temurin.23.JRE"], "winget_install_multiple"),
+        "17": ("ProjectJupyter.JupyterLab", "winget_install"),
+        "18": ("Codeblocks.Codeblocks", "winget_install"),        
+    }
+    
+    choice = input("\nChoose an development option: ")
+    if choice == "0":
+        clear_screen()
+        main_menu()
+    else:
+        # Fetch the command and function name from the dictionary
+        dev_info = development.get(choice)
+        if dev_info:
+            app_name, install_function = dev_info
+            # Dynamically call the appropriate function
+            globals()[install_function](app_name)
+        else:
+            print("Invalid choice. Please try again.")
 
-        # Remove Defender and Edge
-        ms_edgeR()
+# [5] Debloat Menu
+def debloat_menu():
+    rich.print("This option is meant for [#d67200]ADVANCED[/#d67200] USERS")
+    time.sleep(2)
+    rich.print("\nProceed with [#d60000]EXTREME[/#d60000] Caution!\nEnsure you know what [#d60000]EVERY[/#d60000] option means.")
+    time.sleep(2)
+    rich.print("This application is not responsible for any possible [#250052]damage[/#250052] in your OS or Computer.")
+    time.sleep(1)
+    print("\n")
+    O1 = "[#fc0345][1][/#fc0345] Auto Debloat [#fc0345]REMOVING[/#fc0345] Windows Security"
+    O2 = "[#0039ab][2][/#0039ab] Auto Debloat [#0039ab]KEEPING[/#0039ab] Windows Security"
+    O3 = "[#fc0345][3][/#fc0345] [#fc0345]PAUSE[/#fc0345] Windows Updates"
+    O4 = "[#0039ab][4][/#0039ab] [#0039ab]UNPAUSE[/#0039ab] Windows Updates"
+    O5 = "[#fc0345][5][/#fc0345] Auto Debloat [#fc0345]REMOVING[/#fc0345] Windows Security and Updates"
+    
+    rich.print(O1.ljust(100) + O2)
+    rich.print("\n[#4a00ab]WINDOWS UPDATE SECTION[/#4a00ab]")
+    rich.print(O3.ljust(100) + O4)
+    rich.print("\n[#fc0345]MAXIMUM DEBLOAT OPTION[/#fc0345]")
+    rich.print(O5)
+    
+    
+    
+    print("\n[0] Back to main menu")
+    
+    choice = input("\nSelect an option: ")
+    
+    if choice == "0":
+        clear_screen()
+        main_menu()
+    # AUTO W/O SEC    
+    elif choice == "1":
+        clear_screen()
+        rich.print("[#fc0345]Debloat Removing Security is starting![/#fc0345]")
+        time.sleep(3)
+        
+        # Regedit
+        rich.print("\n01.Modifying Regedit Keys")
+        time.sleep(2)
+        regedit()
+        
+        # Services.msc
+        rich.print("\n02.Modifying Windows Services")
+        time.sleep(2)
+        remove_services()
+        
+        # Remove Security and MS EDGE
+        rich.print("\n03.Removing Windows Security")
+        time.sleep(2)
         defender_total_removal()
-
-        # Raphire script install, change txt and execute
-        raphire_install_txt_change()
-        raphire_execute_modscript()
-
-        # RAM Tweaks
-        choco_install("rammap") #Install
-        ram_map() #First Execution
-        schedule_rammap() #Schedule for 30min-30min
-
-        #OO SHUTUP
-        download_file("https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe", "OOSU10.exe")
-
-
-    elif choice == "2": #Automated Keeping Defender
-        # Regedit and Services Tweaks
-        regedit()
-        remove_services()
-
+        
+        rich.print("\n04.Removing MS EDGE")
+        time.sleep(2)
         ms_edgeR()
-
-        # Raphire script install, change txt and execute
+        
+        # Raphire
+        rich.print("\n05.Modifying and Executing Raphire Script")
+        time.sleep(2)
         raphire_install_txt_change()
         raphire_execute_modscript()
-
-        # RAM Tweaks
-        choco_install("rammap") #Install
-        ram_map() #First Execution
-        schedule_rammap() #Schedule for 30min-30min
-
-        #OO SHUTUP
+        
+        # Tweaking RAM
+        rich.print("\n06.Tweaking RAM with RAMMAP")
+        time.sleep(2)
+        
+        choco_install("rammap")
+        ram_map()
+        schedule_rammap()
+        
+        rich.print("\n07.Downloading O&O SHUTUP and Executing")
+        time.sleep(2)
         download_file("https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe", "OOSU10.exe")
-
-    elif choice == "3": # Disable UPDATE
+    # AUTO W SEC    
+    elif choice == "2":
+        clear_screen()
+        rich.print("Debloat keeping Security is starting!")
+        time.sleep(3)
+        
+        # Regedit
+        rich.print("\n01.Modifying Regedit Keys")
+        time.sleep(2)
+        regedit()
+        
+        # Services.msc
+        rich.print("\n02.Modifying Windows Services")
+        time.sleep(2)
+        remove_services()
+        
+        # Remove MS EDGE        
+        rich.print("\n03.Removing MS EDGE")
+        time.sleep(2)
+        ms_edgeR()
+        
+        # Raphire
+        rich.print("\n04.Modifying and Executing Raphire Script")
+        time.sleep(2)
+        raphire_install_txt_change()
+        raphire_execute_modscript()
+        
+        # Tweaking RAM
+        rich.print("\n05.Tweaking RAM with RAMMAP")
+        time.sleep(2)
+        
+        choco_install("rammap")
+        ram_map()
+        schedule_rammap()
+        
+        rich.print("\n06.Downloading O&O SHUTUP and Executing")
+        time.sleep(2)
+        download_file("https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe", "OOSU10.exe")
+        
+    elif choice == "3":
+        rich.print("\n[#fc0345]Pausing Windows Updates Until 2051[/#fc0345]")
+        time.sleep(2)
         user_profile = os.environ.get('USERPROFILE')
         windowsUPK = os.path.join(user_profile, "windows-update-killer")
         windowsUPD = os.path.join(user_profile, "windows-update-disabler")
@@ -452,14 +541,19 @@ def debloat_menu():
         git_clone("https://github.com/Aetherinox/windows-update-killer/")
         git_clone("https://github.com/tsgrgo/windows-update-disabler.git")
         try:
-            subprocess.run(["powershell", "-Command", "%USERPROFILE%\\windows-update-disabler\\disable updates.bat"],capture_output=True, shell= True
+            subprocess.run(["powershell", "-Command", "%USERPROFILE%\\windows-update-disabler\\disable updates.bat"],text=True, shell= True
                        )
-            subprocess.run(["powershell", "-Command", "regedit", "/s", "%USERPROFILE%\\windows-update-killer\\windows-updates-pause.reg"],capture_output=True, text=True, shell= True
+            subprocess.run(["powershell", "-Command", "regedit", "/s", "%USERPROFILE%\\windows-update-killer\\windows-updates-pause.reg"], text=True, shell= True
                        )
         except subprocess.CalledProcessError as e:
-            print(f"An error has occurred: {e}")   
-    
-    elif choice == "4": # RE-ENABLE UPDATES
+            print(f"An error has occurred: {e}")
+            
+        time.sleep(1)
+        rich.print("[#00ff91]Operation Was Succesful[/#00ff91]")
+        time.sleep(1)    
+            
+    elif choice == "4":
+        print("[#0039ab]RE-ENABLING/ENABLING Windows Updates[/#0039ab]")
         force_clean_directory(windowsUPK)
         force_clean_directory(windowsUPD)
 
@@ -472,38 +566,61 @@ def debloat_menu():
                        )
         except subprocess.CalledProcessError as e:
             print(f"An error has occurred: {e}")
-
-    elif choice == "5": # Automated remove -def -UP
-
-        # Regedit, services tweaks
+            
+    elif choice == "5":
+        clear_screen()
+        rich.print("[#fc0345]Debloat Removing Security and Updates is starting![/#fc0345]")
+        time.sleep(3)
+        
+        # Regedit
+        rich.print("\n01.Modifying Regedit Keys")
+        time.sleep(2)
         regedit()
+        
+        # Services.msc
+        rich.print("\n02.Modifying Windows Services")
+        time.sleep(2)
         remove_services()
-
-        # Raphire script install, change txt and execute
-        raphire_install_txt_change()
-        raphire_execute_modscript()
-
-        # Defender and Edge Removal
-        ms_edgeR()
+        
+        # Remove Security and MS EDGE
+        rich.print("\n03.Removing Windows Security")
+        time.sleep(2)
         defender_total_removal()
         
+        rich.print("\n04.Removing MS EDGE")
+        time.sleep(2)
+        ms_edgeR()
+        
+        # Raphire
+        rich.print("\n05.Modifying and Executing Raphire Script")
+        time.sleep(1)
+        rich.print("[#900C3F]This step may take TIME[/#900C3F]")
+        time.sleep(3)
+        raphire_install_txt_change()
+        raphire_execute_modscript()
+        
+        # Tweaking RAM
+        rich.print("\n06.Tweaking RAM with RAMMAP")
+        time.sleep(2)
+        
+        choco_install("rammap")
+        ram_map()
+        schedule_rammap()
         # OO SHUTUP
+        rich.print("\n07.Downloading O&O SHUTUP and Executing")
+        time.sleep(2)
         download_file("https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe", "OOSU10.exe")
-
-        # RAM Tweaks
-        choco_install("rammap") #Install
-        ram_map() #First Execution
-        schedule_rammap() #Schedule for 30min-30min
-
+        
+        # WUPDATE
+        rich.print("\n08.Removing Windows Update")
+        time.sleep(2)
         user_profile = os.environ.get('USERPROFILE')
         windowsUPK = os.path.join(user_profile, "windows-update-killer")
         windowsUPD = os.path.join(user_profile, "windows-update-disabler")
-        
         # Clean if already exists
 
         force_clean_directory(windowsUPK)
         force_clean_directory(windowsUPD)
-        
         # Clone W-Update repos
 
         git_clone("https://github.com/Aetherinox/windows-update-killer/")
@@ -514,231 +631,41 @@ def debloat_menu():
             subprocess.run(["powershell", "-Command", "regedit", "/s", "%USERPROFILE%\\windows-update-killer\\windows-updates-pause.reg"],capture_output=True, text=True, shell= True
                        )
         except subprocess.CalledProcessError as e:
-            print(f"An error has occurred: {e}")  
-            
-def dev_menu():
-    devmenuL = [Fore.CYAN + " |------------ CODE EDITORS/IDEs ------------| ",
-               " [1] Visual Studio Code      [2] IntelliJ IDEA",
-               " [3] PyCharm                 [4] Eclipse",
-               " [5] NetBeans                [6] Atom",
-               " [7] Sublime Text            [8] VIM",
-               " [9] BlueJ                   [10] Emacs",
-               " [11] Arduino IDE            [12] Code::Blocks",
-               " [13] Jupyter Notebook       [14] Spyder",
-               " [15] Geany", " ",
-               "|---------------- BUILD TOOLS ----------------|",
-               " [16] Maven                   [17] Gradle",
-               " [18] Ant                     [19] CMake",
-               " [20] Make                    [21] Bazel",
-               " [22] MSBuild                 [23] Jenkins",
-               " [24] GitLab Runner           [25] CircleCI CLI",
-               " [26] Vagrant"
-               ]
+            print(f"An error has occurred: {e}")
+                
+# [6] ISO Debloat Menu
+def iso_menu():
+    user_profile = os.environ.get('USERPROFILE')
+    toolbox = os.path.join(user_profile, "rosalunna_toolbox")
+    ISO = os.path.join(toolbox, "Windows-ISO-Debloater-1.3.2")
+    script = os.path.join(ISO, "isoDebloaterScript.ps1")
     
-    devmenuR = ["|-------------- DATABASE MANAGEMENT --------------|",
-                " [27] DBeaver                [28] TablePlus",
-                " [29] Robo 3T                [30] Redis DE",
-                " ",
-                "|---------------- WEB-DEV ----------------|",
-                " [31] XAMPP                  [32] MAMP",
-                " [33] Postman                [34] Insomnia",
-                " [35] Apache JMeter", " ",
-                "|-------------- LANGUAGES-ETC --------------|",
-                " [36] Anaconda               [37] Python",
-                " [38] Java 8                 [39] Rust",
-                " [40] Pulsar                 [41] Yarn",
-                " [42] Go                     [43] Pixi",
-                " [44] NodeJS                 [45] Helix",
-                " [46] Godot                  [47] Neovim",
-                Fore.WHITE
-                ]
-    clear_screen()
-    print_side_by_side("\n".join(devmenuL),"\n".join(devmenuR))
-    print("\n [0] Back to main menu ")
-    choice = input("\n Choose an option: ")
-
-    if choice == "0":
+    rich.print("This option is meant for [#d67200]ADVANCED[/#d67200] USERS")
+    time.sleep(2)
+    rich.print("\nProceed with [#d60000]EXTREME[/#d60000] Caution! And ensure you know what [#d60000]EVERY[/#d60000] option means.")
+    time.sleep(2)
+    rich.print("\nThis application is not responsible for any possible [#250052]damage[/#250052] in your OS or Computer.")
+    time.sleep(1)
+    
+    choice = input("Do you wish to proceed to Nilesh's ISO Debloat Script (Y/N)? ")
+    
+    if choice == "n" or choice == "N":
         clear_screen()
         main_menu()
-    elif choice == "1":
-        scoop_install("extras/vscode")
-    elif choice == "2":
-        choco_install("intellijidea-community")
-    elif choice == "3":
-        choco_install("pycharm")
-    elif choice == "4":
-        choco_install("eclipse")
-    elif choice == "5":
-        choco_install("netbeans")
-    elif choice == "6":
-        choco_install("atom")
-    elif choice == "7":
-        scoop_install("extras/sublime-text")
-    elif choice == "8":
-        scoop_install("main/vim")
-    elif choice == "9":
-        choco_install("bluej")
-    elif choice == "10":
-        choco_install("emacs")
-    elif choice == "11":
-        scoop_install("extras/arduino")
-    elif choice == "12":
-        choco_install("codeblocks")
-    elif choice == "13":
-        winget_install("ProjectJupyter.JupyterLab")
-    elif choice == "14":
-        scoop_install("extras/spyder")
-    elif choice == "15":
-        choco_install("geany")
-    elif choice == "16":
-        choco_install("maven")
-    elif choice == "17":
-        choco_install("gradle")
-    elif choice == "18":
-        choco_install("ant")
-    elif choice == "19":
-        choco_install("cmake")
-    elif choice == "20":
-        choco_install("make")
-    elif choice == "21":
-        choco_install("bazel")
-    elif choice == "22":
-        scoop_install("extras/msbuild-structured-log-viewer")
-    elif choice == "23":
-        choco_install("jenkins")
-    elif choice == "24":
-        choco_install("gitlab-runner")
-    elif choice == "25":
-        choco_install("circleci-cli")
-    elif choice == "26":
-        choco_install("vagrant")
-    elif choice == "27":
-        choco_install("dbeaver")
-    elif choice == "28":
-        scoop_install("extras/tableplus")
-    elif choice == "29":
-        choco_install("robo3t.install")
-    elif choice == "30":
-        choco_install("redis")
-    elif choice == "31":
-        scoop_install("extras/xampp")
-    elif choice == "32":
-        choco_install("mamp")
-    elif choice == "33":
-        scoop_install("extras/postman")
-    elif choice == "34":
-        scoop_install("extras/insomnia")
-    elif choice == "35":
-        choco_install("jmeter")
-    elif choice == "36":
-        choco_install("anaconda3")
-        choco_install("anaconda2")
-    elif choice == "37":
-        scoop_install("main/python")
-    elif choice == "38":
-        winget_install("Oracle.JavaRuntimeEnvironment")
-    elif choice == "39":
-        scoop_install("main/rust")
-    elif choice == "40":
-        scoop_install("extras/pulsar")
-    elif choice == "41":
-        scoop_install("main/yarn")
-    elif choice == "42":
-        winget_install("GoLang.Go.1.18")
-    elif choice == "43":
-        winget_install("prefix-dev.pixi")
-    elif choice == "44":
-        winget_install("OpenJS.NodeJS") 
-    elif choice == "45":
-        scoop_install("main/helix")
-    elif choice == "46":
-        choco_install("godot")
-    elif choice == "47":
-        choco_install("neovim")    
-    else:
-        print("Unknown option. Try again: ")
-        dev_menu()                                                                  
-    
-#Chromium menu
-def chromium_menu():
-    clear_screen()
-    print(Fore.BLUE + "[1] Google Chrome")
-    print("[2] Brave")
-    print("[3] Vivaldi")
-    print("[4] Chromium")
-    print("[5] Ungoogled Chromium")
-    print("[6] Microsoft Edge")
-    print("[7] Opera")
-    print("[8] Opera GX")
-    print("[9] Arc")
-    print("[10] Yandex")
-    print(Fore.WHITE + "\n[0] Browser subtype menu")
-    choice = input("\nChoose an option: ")  
-
-    if choice == "0":
-        clear_screen
-        browsers_menu()
-    elif choice == "1":
-        winget_install("Google.Chrome")
-    elif choice == "2":
-        winget_install("Brave.Brave")
-    elif choice == "3":
-        winget_install("Vivaldi.Vivaldi")
-    elif choice == "4":
-        winget_install("Hibbiki.Chromium")
-    elif choice == "5":
-        scoop_install("extras/ungoogled-chromium")
-    elif choice == "6":
-        winget_install("Microsoft.Edge")
-    elif choice == "7":
-        winget_install("Opera.Opera")
-    elif choice == "8":
-        winget_install("Opera.OperaGX")
-    elif choice == "9":
-        winget_install("TheBrowserCompany.Arc")
-    elif choice == "10":
-        winget_install("Yandex.Browser")
-    else:
-        print("Invalid option. Returning to Browsers Menu.")
-        input("Press Enter to continue...")
-
-#Firefox menu
-def firefox_menu():
-    clear_screen()
-    print(Fore.LIGHTYELLOW_EX + "[1] Mozilla Firefox")
-    print("[2] Floorp")
-    print("[3] Zen")
-    print("[4] LibreWolf")
-    print("[5] WaterFox")
-    print("[6] Mullvad")
-    print("[7] TOR")
-    print("[8] Pale Moon")
-    print(Fore.WHITE + "\n[0] Browser subtype menu")
-    choice = input("\nChoose a browser to install: ")
-    
-    if choice == "0":
+        
+    elif choice == "y" or choice == "Y":                
+        force_clean_directory(toolbox)
+        git_clone_branch_txt()
+        
+        try:
+            subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", script],shell=True, check=True)
+            print("ISO Debloat script executed successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error running the ISO Debloat script: {e}")
+    else:        
+        print("Not Known Option")
+        time.sleep(3)
         clear_screen()
-        browsers_menu()  
-    elif choice == "1":
-        winget_install("Mozilla.Firefox")
-    elif choice == "2":
-        winget_install("Ablaze.Floorp")
-    elif choice == "3":
-        winget_install("Zen-Team.Zen-Browser")
-    elif choice == "4":
-        winget_install("LibreWolf.LibreWolf")
-    elif choice == "5":
-        winget_install("WaterFox.WaterFox")
-    elif choice == "6":
-        winget_install("MullvadVPN.MullvadBrowser")
-    elif choice == "7":
-        winget_install("TorProject.TorBrowser")    
-    elif choice == "8":
-        winget_install("MoonchildProductions.PaleMoon")    
-    else:
-        print("Invalid option. Returning to Browsers Menu.")
-        input("Press Enter to continue...")
-
-os.system("mode con: cols=190 lines=66")
-
+        iso_menu()        
+        
 main_menu()
