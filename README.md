@@ -2,32 +2,31 @@
 A powerful tool to install essential applications, web browsers, utilities, and debloat your Windows system, all from a convenient menu. 
 Ideal for setting up a fresh Windows installation or removing unnecessary apps to improve system performance.
 
-## Features:
-### Must Install Applications and frameworks:
-- Essential Frameworks: DirectX, Visual C++, .NET.
-- Java 8 for applications and gaming purposes.
-- Windows Terminal: A powerful terminal experience for command-line users.
-- Utilities: Calculator, Paint3D, Camera, Photos, MultiMedia Player, Notepad, Voice Recorder.
-### Browsers:
-- Chromium Based, offering 10 options.
-- Firefox Forks/Engine, offering 8 options.
-### Applications
-- A wide range of applications ready to be installed for enhanced productivity and development.
-- Including 5 categories: GAMING, PERIPHEALS, EMULATORS, HARDWARE and UTILITIES.
-- Includes 71 options to choose on those 5 categories.
-### Development
-- Including 5 Categories: CODE EDITORS/IDEs, BUILD TOOLS, DATABASE MANAGEMENT, WEB-DEV, LANGUAGES-ETC
-- **47 Options** to choose on those categories.
-### Debloat Menu
-#### Includes 5 Options:
-- Automated Debloat Removing Defender: Simplify your system by removing unnecessary bloatware and Windows Defender.
-- Automated Debloat Keeping Defender: Keep Windows Defender while removing other unnecessary bloatware.
-- Disable Windows Updates (paused until 2051)
-- Re-enable Windows Updates
-- Automated Debloat Removing both defender and updates
+## [1] Extremely Recommended:
+### Essential Frameworks: DirectX, Visual C++, .NET.
+### Java 8 for applications, gaming and programming purposes.
+### Utilities: Windows Terminal, Calculator, Paint3D, Camera, MultiMedia Player, Photos, Notepad, Sound Recorder.
+## [2] Browsers:
+### Chromium Based, offering 10 options.
+### Firefox Forks/Engine, offering 8 options.
+## [3] Applications
+### A wide range of applications ready to be installed for enhanced productivity and development.
+### Including 5 Categories: Gaming, Common Apps, Archive Managers, Hardware, Utilities
+### Includes 43 options to choose on those 5 categories.
+## [4] Development
+### Including 2 Categories: Languages and Code Editors/IDEs
+### **18 Options** to choose on those categories.
+## [5] Debloat Menu
+### Automated Debloat Removing Windows Security
+### Automated Debloat Keeping Windows Security
+### Pause and remove Windows Updates 
+### Unpause and re-add Windows Updates
+### Automated Debloat Removing Windows Security and Updates
 
-## Installation Method
-Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
+## Installation Methods
+- Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
+- OR
+- Download rosalunna.py and Utils Folder and execute rosalunna.py into your Code Editor, Python IDE, etc.
 
 ### Link to the latest release
 https://github.com/rosalunna/rosalunna_toolbox/releases/tag/official_releases/latest/
