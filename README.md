@@ -3,25 +3,25 @@ A powerful tool to install essential applications, web browsers, utilities, and 
 Ideal for setting up a fresh Windows installation or removing unnecessary apps to improve system performance.
 
 ## [1] Extremely Recommended:
-### Essential Frameworks: DirectX, Visual C++, .NET.
-### Java 8 for applications, gaming and programming purposes.
-### Utilities: Windows Terminal, Calculator, Paint3D, Camera, MultiMedia Player, Photos, Notepad, Sound Recorder.
+- Essential Frameworks: DirectX, Visual C++, .NET.
+- Java 8 for applications, gaming and programming purposes.
+- Utilities: Windows Terminal, Calculator, Paint3D, Camera, MultiMedia Player, Photos, Notepad, Sound Recorder.
 ## [2] Browsers:
-### Chromium Based, offering 10 options.
-### Firefox Forks/Engine, offering 8 options.
+- Chromium Based, offering 10 options.
+- Firefox Forks/Engine, offering 8 options.
 ## [3] Applications
-### A wide range of applications ready to be installed for enhanced productivity and development.
-### Including 5 Categories: Gaming, Common Apps, Archive Managers, Hardware, Utilities
-### Includes 43 options to choose on those 5 categories.
+- A wide range of applications ready to be installed for enhanced productivity and development.
+- Including 5 Categories: Gaming, Common Apps, Archive Managers, Hardware, Utilities
+- Includes 43 options to choose on those 5 categories.
 ## [4] Development
-### Including 2 Categories: Languages and Code Editors/IDEs
-### **18 Options** to choose on those categories.
+- Including 2 Categories: Languages and Code Editors/IDEs
+- **18 Options** to choose on those categories.
 ## [5] Debloat Menu
-### Automated Debloat Removing Windows Security
-### Automated Debloat Keeping Windows Security
-### Pause and remove Windows Updates 
-### Unpause and re-add Windows Updates
-### Automated Debloat Removing Windows Security and Updates
+- Automated Debloat Removing Windows Security
+- Automated Debloat Keeping Windows Security
+- Pause and remove Windows Updates 
+- Unpause and re-add Windows Updates
+- Automated Debloat Removing Windows Security and Updates
 
 ## Installation Methods
 - Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
