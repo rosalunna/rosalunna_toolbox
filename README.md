@@ -55,6 +55,7 @@ This script modifies system settings and removes specific components including:
 4. Aetherinox's Windows Update Killer (https://github.com/Aetherinox/windows-update-killer)
 5. tsgrgo's Windows Update Disabler (https://github.com/tsgrgo/windows-update-disabler)
 6. Shadow Whisperer's MS-EDGE Removal batch (https://github.com/ShadowWhisperer/Remove-MS-Edge)
+7. ItsNileshHere Windows ISO Debloater Script (https://github.com/itsNileshHere/Windows-ISO-Debloater)
 
 ---
 ## Support
