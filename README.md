@@ -22,6 +22,12 @@ Ideal for setting up a fresh Windows installation or removing unnecessary apps t
 - Pause and remove Windows Updates 
 - Unpause and re-add Windows Updates
 - Automated Debloat Removing Windows Security and Updates
+## [6] Tweaks Menu
+- Restore Old/Modern Right Click Context Menu
+- Disable/Enable Windows Recall
+- Disable All Windows Background Apps
+## [7] ISO Debloat Menu
+Strip down your windows ISO using ItsNileshHere powershell script.
 
 ## Installation Methods
 - Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
@@ -37,6 +43,7 @@ https://github.com/rosalunna/rosalunna_toolbox/releases/tag/official_releases/la
 This script modifies system settings and removes specific components including:
 - **Windows Imbedded Antivirus**
 - **Windows Update**
+- **Windows Recall**
 - **Windows Default Applications**
 - **Windows processes and regedit**
 - **Microsoft Edge**
