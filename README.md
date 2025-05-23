@@ -30,12 +30,9 @@ Ideal for setting up a fresh Windows installation or removing unnecessary apps t
 Strip down your windows ISO using ItsNileshHere powershell script or Tiny11 ISO Maker.
 
 ## Installation Methods
-- Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
+- Download rosalunna_toolbox_vA.B.C-D.exe and execute it ***AS ADMINISTRATOR!***
 - OR
 - Download rosalunna.py and Utils Folder and execute rosalunna.py into your Code Editor, Python IDE, etc.
-
-### Link to the latest release
-https://github.com/rosalunna/rosalunna_toolbox/releases/tag/official_releases/latest/
 
 ---
 
