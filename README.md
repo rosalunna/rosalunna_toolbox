@@ -27,7 +27,7 @@ Ideal for setting up a fresh Windows installation or removing unnecessary apps t
 - Disable/Enable Windows Recall
 - Disable All Windows Background Apps
 ## [7] ISO Debloat Menu
-Strip down your windows ISO using ItsNileshHere powershell script.
+Strip down your windows ISO using ItsNileshHere powershell script or Tiny11 ISO Maker.
 
 ## Installation Methods
 - Download rosalunna_toolbox_vX.Y.Z.exe and execute It ***AS ADMINISTRATOR!***
@@ -62,6 +62,7 @@ This script modifies system settings and removes specific components including:
 5. tsgrgo's Windows Update Disabler (https://github.com/tsgrgo/windows-update-disabler)
 6. Shadow Whisperer's MS-EDGE Removal batch (https://github.com/ShadowWhisperer/Remove-MS-Edge)
 7. ItsNileshHere Windows ISO Debloater Script (https://github.com/itsNileshHere/Windows-ISO-Debloater)
+8. ntdevlabs Windows ISO Debloater Scripts (https://github.com/ntdevlabs/tiny11builder)
 
 ---
 ## Support
